@@ -14,32 +14,31 @@ class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 
     def minmax(self, depth):
-
-
         if self._board.is_game_over() or depth == 0:
-            return - self._board.diff_stones_board()
+            return self._board.diff_stones_board()
         
         moves = self._board.legal_moves()
-        retour = {"heuristique" : 0, "move": moves[0]}
+        move = None
+        heuristique = 0
         if self._board._nextPlayer == self._board._BLACK:
-            w = 100
+            w = 10000
             for i in range (len(moves)):
                 self._board.push(moves[i])
                 #w = min(w, myPlayer.minmax(self, depth-1))
-                retour = myPlayer.minmax(self, depth-1)
-                if w > retour["heuristique"]:
-                    w = retour["heuristique"]
+                heuristique, move = myPlayer.minmax(self, depth-1)
+                if w > heuristique:
+                    w = heuristique
                     move = moves[i]
                 self._board.pop()
             return w, move
         elif self._board._nextPlayer == self._board._WHITE:
-            retour["heuristique"] = -100
+            w = -10000
             for i in range (len(moves)):
                 self._board.push(moves[i])
                 #w = max(w, myPlayer.minmax(self, depth-1))
-                retour = myPlayer.minmax(self, depth-1)
-                if w < retour["heuristique"]:
-                    w = retour["heuristique"]
+                tmp = myPlayer.minmax(self, depth-1)
+                if w < heuristique:
+                    w = heuristique
                     move = moves[i]
                 self._board.pop()
             return w, move
@@ -49,7 +48,7 @@ class myPlayer(PlayerInterface):
         self._mycolor = None
 
     def getPlayerName(self):
-        return "Alexandre depth 1"
+        return "Alexandre depth x"
 
     def getPlayerMove(self):
         if self._board.is_game_over():
@@ -81,6 +80,3 @@ class myPlayer(PlayerInterface):
             print("I won!!!")
         else:
             print("I lost :(!!")
-
-
-
