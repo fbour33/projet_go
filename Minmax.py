@@ -55,7 +55,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        heuristique, move = myPlayer.minmax_init(self, 2)
+        heuristique, move = myPlayer.minmax(self, 1)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
