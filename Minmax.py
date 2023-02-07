@@ -13,41 +13,53 @@ from playerInterface import *
 class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 
-    def minmax(self, depth):
+    def MaxMin(self, depth): # ami
         if self._board.is_game_over() or depth == 0:
-            return - self._board.diff_stones_board()
+            return self._board.diff_stones_board()
         
         moves = self._board.legal_moves()
-        move = None
-        if self._board._nextPlayer == self._board._BLACK:
-            w = 10000
-            for i in range (len(moves)):
-                self._board.push(moves[i])
-                #w = min(w, myPlayer.minmax(self, depth-1))
-                tmp = myPlayer.minmax(self, depth-1)
-                if w > tmp:
-                    w = tmp
-                    move = moves[i]
-                self._board.pop()
-            return w, move
-        elif self._board._nextPlayer == self._board._WHITE:
-            w = -10000
-            for i in range (len(moves)):
-                self._board.push(moves[i])
-                #w = max(w, myPlayer.minmax(self, depth-1))
-                tmp = myPlayer.minmax(self, depth-1)
-                if w < tmp:
-                    w = tmp
-                    move = moves[i]
-                self._board.pop()
-            return w, move
+        best = -1000
+        for move in moves:
+            self._board.push(move)
+            best = max(best, myPlayer.MinMax(self, depth-1))
+            self._board.pop()
+        return best
+
+
+    def MinMax(self, depth): # adversaire
+        if self._board.is_game_over() or depth == 0:
+            return self._board.diff_stones_board()
+        
+        worst = 1000
+        moves = self._board.legal_moves()
+        for move in moves:
+            self._board.push(move)
+            worst = min(worst, myPlayer.MaxMin(self, depth-1))
+            self._board.pop()
+        return worst
+
+    def best_move_minmax(self, depth):
+        moves = self._board.legal_moves()
+        best_move = []
+        best = -100
+
+        for move in moves:
+            self._board.push(move)
+            current_value = myPlayer.MaxMin(self, depth-1) 
+            if best < current_value: 
+                best = current_value
+                best_move = [move]
+            elif best == current_value: 
+                best_move.append(move)
+            self._board.pop()
+        return choice(best_move)
 
     def __init__(self):
         self._board = Goban.Board()
         self._mycolor = None
 
     def getPlayerName(self):
-        return "Alexandre depth x"
+        return "Alexandre depth 2"
 
     def getPlayerMove(self):
         if self._board.is_game_over():
@@ -55,7 +67,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        heuristique, move = myPlayer.minmax(self, 1)
+        move = myPlayer.best_move_minmax(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
