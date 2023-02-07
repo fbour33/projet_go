@@ -14,12 +14,13 @@ class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 
     def minmax(self, depth):
-        if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
-        
+
         moves = self._board.legal_moves()
-        move = None
-        heuristique = 0
+        heuristique, move = 0, moves[0]
+
+        if self._board.is_game_over() or depth == 0:
+            return self._board.diff_stones_board(), move
+        
         if self._board._nextPlayer == self._board._BLACK:
             w = 10000
             for i in range (len(moves)):
@@ -36,7 +37,7 @@ class myPlayer(PlayerInterface):
             for i in range (len(moves)):
                 self._board.push(moves[i])
                 #w = max(w, myPlayer.minmax(self, depth-1))
-                tmp = myPlayer.minmax(self, depth-1)
+                heuristique, move = myPlayer.minmax(self, depth-1)
                 if w < heuristique:
                     w = heuristique
                     move = moves[i]
@@ -56,7 +57,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        heuristique, move = myPlayer.minmax(self, 2)
+        heuristique, move = myPlayer.minmax(self, 1)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
