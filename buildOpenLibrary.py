@@ -1,5 +1,7 @@
 from json import *
 
+nb_turn = 5
+
 def openArchives():
     with open('proGameArchives.json', 'r') as file: 
         data = load(file)
@@ -44,7 +46,6 @@ def stockOpenLibrary(nb_turn):
     data = createOpenLibrary(nb_turn)
     with open('openLibrary.json', 'w') as file:
         dump(data, file)
-
     
 
 #print(createOpenLibrary(5))
