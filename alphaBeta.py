@@ -9,13 +9,14 @@ import time
 import Goban 
 from random import choice
 from playerInterface import *
+from endGame import *
 
 class myPlayer(PlayerInterface):
     """minmax de profondeur x avec alpha beta"""
 
     def MaxValue(self, depth, alpha, beta):
         if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
+            return endGame.isEndGameBlack(self, depth)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
@@ -28,7 +29,7 @@ class myPlayer(PlayerInterface):
 
     def MinValue(self, depth, alpha, beta):
         if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
+            endGame.isEndGameBlack(self, depth)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
@@ -40,8 +41,8 @@ class myPlayer(PlayerInterface):
 
     def alphaBeta(self, depth):
         moves = self._board.legal_moves()
-        alpha = -100
-        beta = 100
+        alpha = -10000
+        beta = 10000
         best_move = 0
         for move in moves:
             self._board.push(move)
