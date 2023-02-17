@@ -1,2 +1,5 @@
+# Ignorer les fichiers et dossiers générés automatiquement
 __pycache__/
-__pycache__
+*.pyc
+*.pyo
+*.pyd
