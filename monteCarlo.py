@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ''' This is the file you have to modify for the tournament. Your default AI player must be called by this module, in the
-myPlayer class.
+monteCarlo class.
 
 Right now, this class contains the copy of the randomPlayer. But you have to change this!
 '''
@@ -11,7 +11,7 @@ from random import choice
 from playerInterface import *
 import numpy as np
 
-class myPlayer(PlayerInterface):
+class monteCarlo(PlayerInterface):
     """Monte Carlo"""
 
     def best_move(moves, score, nb_simulation):
@@ -33,11 +33,11 @@ class myPlayer(PlayerInterface):
         nb_simulation = np.zeros(len(moves))
         for i in range(len(moves)):
             self._board.push(moves[i])
-            score[i] += myPlayer.monteCarlo(self, depth -1)
+            score[i] += monteCarlo.monteCarlo(self, depth -1)
             self._board.pop()
             nb_simulation[i] += 1
         #return moves[np.argmax(score / nb_simulation)]
-        return myPlayer.best_move(moves, score, nb_simulation)
+        return monteCarlo.best_move(moves, score, nb_simulation)
     
 
 
@@ -54,7 +54,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.monteCarlo(self, 2)
+        move = monteCarlo.monteCarlo(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

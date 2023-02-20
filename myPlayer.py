@@ -9,50 +9,10 @@ import time
 import Goban 
 from random import choice
 from playerInterface import *
+from minMax import *
 
 class myPlayer(PlayerInterface):
     """Current player"""
-
-    def MaxMin(self, depth): # ami
-        if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
-        
-        moves = self._board.legal_moves()
-        best = -1000
-        for move in moves:
-            self._board.push(move)
-            best = max(best, myPlayer.MinMax(self, depth-1))
-            self._board.pop()
-        return best
-
-
-    def MinMax(self, depth): # adversaire
-        if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
-        
-        worst = 1000
-        moves = self._board.legal_moves()
-        for move in moves:
-            self._board.push(move)
-            worst = min(worst, myPlayer.MaxMin(self, depth-1))
-            self._board.pop()
-        return worst
-
-    def best_move_minmax(self, depth):
-        moves = self._board.legal_moves()
-        best_move = []
-        best = -100
-
-        for move in moves:
-            self._board.push(move)
-            current_value = myPlayer.MaxMin(self, depth-1) 
-            if best < current_value: 
-                best = current_value
-                best_move = [move]
-            elif best == current_value: 
-                best_move.append(move)
-            self._board.pop()
-        return choice(best_move)
 
     def __init__(self):
         self._board = Goban.Board()
@@ -67,7 +27,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.best_move_minmax(self, 2)
+        move = minMax.best_move_minmax(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

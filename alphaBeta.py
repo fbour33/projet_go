@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ''' This is the file you have to modify for the tournament. Your default AI player must be called by this module, in the
-myPlayer class.
+alphaBeta class.
 
 Right now, this class contains the copy of the randomPlayer. But you have to change this!
 '''
@@ -11,7 +11,7 @@ from random import choice
 from playerInterface import *
 from endGame import *
 
-class myPlayer(PlayerInterface):
+class alphaBeta(PlayerInterface):
     """minmax de profondeur x avec alpha beta"""
 
     def MaxValue(self, depth, alpha, beta):
@@ -20,7 +20,7 @@ class myPlayer(PlayerInterface):
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            alpha = max(alpha, myPlayer.MinValue(self, depth-1, alpha, beta))
+            alpha = max(alpha, alphaBeta.MinValue(self, depth-1, alpha, beta))
             self._board.pop()
             if alpha >= beta:
                 return alpha
@@ -29,11 +29,11 @@ class myPlayer(PlayerInterface):
 
     def MinValue(self, depth, alpha, beta):
         if self._board.is_game_over() or depth == 0:
-            endGame.isEndGameBlack(self, depth)
+            return endGame.isEndGameBlack(self, depth)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            beta = min(beta, myPlayer.MaxValue(self, depth-1, alpha, beta))
+            beta = min(beta, alphaBeta.MaxValue(self, depth-1, alpha, beta))
             self._board.pop()
             if alpha >= beta:
                 return alpha
@@ -46,7 +46,7 @@ class myPlayer(PlayerInterface):
         best_move = 0
         for move in moves:
             self._board.push(move)
-            current_value = myPlayer.MinValue(self, depth-1, alpha, beta)
+            current_value = alphaBeta.MinValue(self, depth-1, alpha, beta)
             self._board.pop()
             if current_value > alpha:
                 alpha = current_value
@@ -68,7 +68,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.alphaBeta(self, 2)
+        move = alphaBeta.alphaBeta(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

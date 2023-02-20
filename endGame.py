@@ -19,7 +19,7 @@ class endGame:
             else:
                 return 0
         
-        if depth == 0:
+        elif depth == 0:
             return self._board.diff_stones_board()
 
     # Cette fonction est adaptée pour le joueur blanc
