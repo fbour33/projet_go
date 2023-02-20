@@ -1,0 +1,13 @@
+Voici les principales modifications à ajouter au projet :
+
+- ajouter les couleurs dans les fichiers des players 
+    -> def player_name(player): if player == Board._BLACK ...
+    -> def flip(player): if player == Board._BLACK ...
+
+- ajouter une heuristique qui tient compte des voisins de la case que l'on joue :
+    -> def flat_to_name(fcoord)-> move "A1"
+    -> def _get_neighbors(self, fcoord)
+    -> def name_to_flat(s)
+    -> self._board[n] == Board._BLACK
+
+On passe de move a flatten puis a unflatten, mais on va donner les coordonnées flatten
