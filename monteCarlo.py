@@ -10,8 +10,9 @@ import Goban
 from random import choice
 from playerInterface import *
 import numpy as np
+from endGame import *
 
-class monteCarlo(PlayerInterface):
+class myPlayer(PlayerInterface):
     """Monte Carlo"""
 
     def best_move(moves, score, nb_simulation):
@@ -27,17 +28,17 @@ class monteCarlo(PlayerInterface):
 
     def monteCarlo(self, depth):
         if self._board.is_game_over() or depth == 0:
-            return -self._board.diff_stones_board()
+            return endGame.isEndGameBlack(self, depth)
         moves = self._board.legal_moves()
         score = np.zeros(len(moves))
         nb_simulation = np.zeros(len(moves))
         for i in range(len(moves)):
             self._board.push(moves[i])
-            score[i] += monteCarlo.monteCarlo(self, depth -1)
+            score[i] += myPlayer.monteCarlo(self, depth -1)
             self._board.pop()
             nb_simulation[i] += 1
         #return moves[np.argmax(score / nb_simulation)]
-        return monteCarlo.best_move(moves, score, nb_simulation)
+        return myPlayer.best_move(moves, score, nb_simulation)
     
 
 
@@ -54,7 +55,7 @@ class monteCarlo(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = monteCarlo.monteCarlo(self, 2)
+        move = myPlayer.monteCarlo(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

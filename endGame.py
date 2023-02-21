@@ -11,29 +11,31 @@ lose = -1000
 class endGame:
     # Cette fonction est adaptée pour le joueur noir
     def isEndGameBlack(self, depth):
+        nb = self._board.diff_stones_board()
         if self._board.is_game_over():
-            if self._board.diff_stones_board() > 0:
+            if nb > 0:
                 return win
-            elif self._board.diff_stones_board() < 0:
+            elif nb < 0:
                 return lose
             else:
                 return 0
         
         elif depth == 0:
-            return self._board.diff_stones_board()
+            return nb
 
     # Cette fonction est adaptée pour le joueur blanc
     def isEndGameWhite(self, depth):
+        nb = self._board.diff_stones_board()
         if self._board.is_game_over():
-            if self._board.diff_stones_board() > 0:
+            if nb > 0:
                 return lose
-            elif self._board.diff_stones_board() < 0:
+            elif nb < 0:
                 return win
             else:
                 return 0
         
         if depth == 0:
-            return - self._board.diff_stones_board()
+            return -nb
 
     def neighbors(self, move):
         """Retourne un couple, le nombre de voisin noir et le nombre de voisin blanc"""
