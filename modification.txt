@@ -11,3 +11,4 @@ Voici les principales modifications à ajouter au projet :
     -> self._board[n] == Board._BLACK
 
 On passe de move a flatten puis a unflatten, mais on va donner les coordonnées flatten
+Regarder ce qu'est un legal_move

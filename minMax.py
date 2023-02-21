@@ -11,7 +11,7 @@ from random import choice
 from playerInterface import *
 from endGame import *
 
-class minMax(PlayerInterface):
+class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 
     def MaxMin(self, depth): # ami
@@ -22,7 +22,7 @@ class minMax(PlayerInterface):
         best = -1000
         for move in moves:
             self._board.push(move)
-            best = max(best, minMax.MinMax(self, depth-1))
+            best = max(best, myPlayer.MinMax(self, depth-1))
             self._board.pop()
         return best
 
@@ -35,7 +35,7 @@ class minMax(PlayerInterface):
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            worst = min(worst, minMax.MaxMin(self, depth-1))
+            worst = min(worst, myPlayer.MaxMin(self, depth-1))
             self._board.pop()
         return worst
 
@@ -46,7 +46,7 @@ class minMax(PlayerInterface):
 
         for move in moves:
             self._board.push(move)
-            current_value = minMax.MaxMin(self, depth-1) 
+            current_value = myPlayer.MaxMin(self, depth-1) 
             if best < current_value: 
                 best = current_value
                 best_move = [move]
@@ -68,7 +68,7 @@ class minMax(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = minMax.best_move_minmax(self, 2)
+        move = myPlayer.best_move_minmax(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

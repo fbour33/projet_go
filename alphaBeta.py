@@ -11,42 +11,42 @@ from random import choice
 from playerInterface import *
 from endGame import *
 
-class alphaBeta(PlayerInterface):
+class myPlayer(PlayerInterface):
     """minmax de profondeur x avec alpha beta"""
 
-    def MaxValue(self, depth, alpha, beta):
+    def MaxValue(self, depth, alpha, beta, currentMove):
         if self._board.is_game_over() or depth == 0:
-            return endGame.isEndGameBlack(self, depth)
+            return endGame.heuristique(self, depth, currentMove)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            alpha = max(alpha, alphaBeta.MinValue(self, depth-1, alpha, beta))
+            alpha = max(alpha, myPlayer.MinValue(self, depth-1, alpha, beta, move))
             self._board.pop()
             if alpha >= beta:
                 return alpha
         return alpha
 
 
-    def MinValue(self, depth, alpha, beta):
+    def MinValue(self, depth, alpha, beta, currentMove):
         if self._board.is_game_over() or depth == 0:
-            return endGame.isEndGameBlack(self, depth)
+            return endGame.heuristique(self, depth, currentMove)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            beta = min(beta, alphaBeta.MaxValue(self, depth-1, alpha, beta))
+            beta = min(beta, myPlayer.MaxValue(self, depth-1, alpha, beta, move))
             self._board.pop()
             if alpha >= beta:
                 return alpha
         return beta
 
-    def alphaBeta(self, depth):
+    def alphaBeta(self, depth): # ok pour le BLACK
         moves = self._board.legal_moves()
         alpha = -10000
         beta = 10000
         best_move = 0
         for move in moves:
             self._board.push(move)
-            current_value = alphaBeta.MinValue(self, depth-1, alpha, beta)
+            current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move)
             self._board.pop()
             if current_value > alpha:
                 alpha = current_value
@@ -68,7 +68,7 @@ class alphaBeta(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = alphaBeta.alphaBeta(self, 2)
+        move = myPlayer.alphaBeta(self, 2)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
