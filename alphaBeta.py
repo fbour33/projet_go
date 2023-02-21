@@ -14,39 +14,39 @@ from endGame import *
 class myPlayer(PlayerInterface):
     """minmax de profondeur x avec alpha beta"""
 
-    def MaxValue(self, depth, alpha, beta, currentMove):
+    def MaxValue(self, depth, alpha, beta, currentMove, color):
         if self._board.is_game_over() or depth == 0:
-            return endGame.heuristique(self, depth, currentMove)
+            return endGame.coloredHeuristique(self, depth, currentMove, color)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            alpha = max(alpha, myPlayer.MinValue(self, depth-1, alpha, beta, move))
+            alpha = max(alpha, myPlayer.MinValue(self, depth-1, alpha, beta, move, color))
             self._board.pop()
             if alpha >= beta:
                 return alpha
         return alpha
 
 
-    def MinValue(self, depth, alpha, beta, currentMove):
+    def MinValue(self, depth, alpha, beta, currentMove, color):
         if self._board.is_game_over() or depth == 0:
-            return endGame.heuristique(self, depth, currentMove)
+            return endGame.coloredHeuristique(self, depth, currentMove, color)
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            beta = min(beta, myPlayer.MaxValue(self, depth-1, alpha, beta, move))
+            beta = min(beta, myPlayer.MaxValue(self, depth-1, alpha, beta, move, color))
             self._board.pop()
             if alpha >= beta:
                 return alpha
         return beta
 
-    def alphaBeta(self, depth): # ok pour le BLACK
+    def alphaBeta(self, depth, color): # ok pour le BLACK
         moves = self._board.legal_moves()
         alpha = -10000
         beta = 10000
         best_move = 0
         for move in moves:
             self._board.push(move)
-            current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move)
+            current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move, color)
             self._board.pop()
             if current_value > alpha:
                 alpha = current_value
@@ -68,7 +68,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.alphaBeta(self, 2)
+        move = myPlayer.alphaBeta(self, 2, self._mycolor)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

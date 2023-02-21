@@ -22,6 +22,12 @@ class endGame:
         
         elif depth == 0:
             return nb
+        
+    def isendGame(self, depth, color):
+        if color == Goban.Board._BLACK:
+            return endGame.isEndGameBlack(self, depth)
+        else:
+            return endGame.isEndGameBlack(self, depth)
 
     def neighbors(self, move):
         """Retourne un couple, le nombre de voisin noir et le nombre de voisin blanc"""
@@ -37,7 +43,7 @@ class endGame:
                 white += 1
         return black, white
 
-    def heuristique(self, depth, move): # pour le joueur BLACK
+    def heuristique(self, depth, move):
         nb = self._board.diff_stones_board()
         if self._board.is_game_over():
             if nb > 0:
@@ -50,3 +56,9 @@ class endGame:
         nbBlack, nbWhite = endGame.neighbors(self, move)
         if depth == 0:
             return 5*nb + nbBlack - nbWhite
+        
+    def coloredHeuristique(self, depth, move, color):
+        if color == Goban.Board._BLACK:
+            return endGame.heuristique(self, depth, move)
+        else:
+            return -endGame.heuristique(self, depth, move)

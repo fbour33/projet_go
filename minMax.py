@@ -16,10 +16,7 @@ class myPlayer(PlayerInterface):
 
     def MaxMin(self, depth, color): # ami
         if self._board.is_game_over() or depth == 0:
-            if color == Goban.Board._BLACK:
-                return endGame.isEndGameBlack(self, depth)
-            else:
-                return -endGame.isEndGameBlack(self, depth)
+            return endGame.isendGame(self, depth, color)
         
         moves = self._board.legal_moves()
         best = -1000
@@ -32,10 +29,7 @@ class myPlayer(PlayerInterface):
 
     def MinMax(self, depth, color): # adversaire
         if self._board.is_game_over() or depth == 0:
-            if color == Goban.Board._BLACK:
-                return endGame.isEndGameBlack(self, depth)
-            else:
-                return -endGame.isEndGameBlack(self, depth)
+            return endGame.isendGame(self, depth, color)
         
         worst = 1000
         moves = self._board.legal_moves()
