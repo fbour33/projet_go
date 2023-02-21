@@ -37,7 +37,6 @@ class myPlayer(PlayerInterface):
             score[i] += myPlayer.monteCarlo(self, depth -1)
             self._board.pop()
             nb_simulation[i] += 1
-        #return moves[np.argmax(score / nb_simulation)]
         return myPlayer.best_move(moves, score, nb_simulation)
     
 
