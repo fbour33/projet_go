@@ -11,6 +11,7 @@ from random import choice
 from playerInterface import *
 #from json import *
 #import buildOpenLibrary as bdl
+from endGame import *
 
 from openLibrary import *
 
@@ -23,7 +24,7 @@ class myPlayer(PlayerInterface):
 
     def MaxMin(self, depth): # ami
         if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
+            return endGame.isEndGameBlack(self, depth)
         
         moves = self._board.legal_moves()
         best = -1000
@@ -36,7 +37,7 @@ class myPlayer(PlayerInterface):
 
     def MinMax(self, depth): # adversaire
         if self._board.is_game_over() or depth == 0:
-            return self._board.diff_stones_board()
+            return endGame.isEndGameBlack(self, depth)
         
         worst = 1000
         moves = self._board.legal_moves()
