@@ -14,43 +14,49 @@ from endGame import *
 class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 
-    def MaxMin(self, depth): # ami
+    def MaxMin(self, depth, color): # ami
         if self._board.is_game_over() or depth == 0:
-            return endGame.isEndGameBlack(self, depth)
+            if color == Goban.Board._BLACK:
+                return endGame.isEndGameBlack(self, depth)
+            else:
+                return -endGame.isEndGameBlack(self, depth)
         
         moves = self._board.legal_moves()
         best = -1000
         for move in moves:
             self._board.push(move)
-            best = max(best, myPlayer.MinMax(self, depth-1))
+            best = max(best, myPlayer.MinMax(self, depth-1, color))
             self._board.pop()
         return best
 
 
-    def MinMax(self, depth): # adversaire
+    def MinMax(self, depth, color): # adversaire
         if self._board.is_game_over() or depth == 0:
-            return endGame.isEndGameBlack(self, depth)
+            if color == Goban.Board._BLACK:
+                return endGame.isEndGameBlack(self, depth)
+            else:
+                return -endGame.isEndGameBlack(self, depth)
         
         worst = 1000
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            worst = min(worst, myPlayer.MaxMin(self, depth-1))
+            worst = min(worst, myPlayer.MaxMin(self, depth-1, color))
             self._board.pop()
         return worst
 
-    def best_move_minmax(self, depth):
+    def best_move_minmax(self, depth, color):
         moves = self._board.legal_moves()
         best_move = []
-        best = -100
+        best = -1000
 
         for move in moves:
             self._board.push(move)
-            current_value = myPlayer.MaxMin(self, depth-1) 
+            current_value = myPlayer.MaxMin(self, depth-1, color)
             if best < current_value: 
                 best = current_value
                 best_move = [move]
-            elif best == current_value: 
+            elif best == current_value:
                 best_move.append(move)
             self._board.pop()
         return choice(best_move)
@@ -68,7 +74,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.best_move_minmax(self, 2)
+        move = myPlayer.best_move_minmax(self, 2, self._mycolor)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
