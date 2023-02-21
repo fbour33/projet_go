@@ -9,8 +9,10 @@ import time
 import Goban 
 from random import choice
 from playerInterface import *
-from json import *
-import buildOpenLibrary as bdl
+#from json import *
+#import buildOpenLibrary as bdl
+
+from openLibrary import *
 
 class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
@@ -46,14 +48,18 @@ class myPlayer(PlayerInterface):
 
     def best_move_minmax(self, depth):
         
-        if depth <= self._opening_depth: 
-            opening_move = None
-            for move in self._board.legal_moves(): 
-                if move in self._data[depth - 1]:
-                    opening_move = move
-                    break
-            if opening_move is not None:
-                return opening_move
+        #if depth <= self._opening_depth: 
+        #    opening_move = None
+        #    for move in self._board.legal_moves(): 
+        #        if move in self._data[depth - 1]:
+        #            opening_move = move
+        #            break
+        #    if opening_move is not None:
+        #        return opening_move
+        
+        opening_move = openLibrary.openingMove(self, depth);
+        if opening_move is not None:
+            return opening_move
         
         moves = self._board.legal_moves()
         best_move = []
