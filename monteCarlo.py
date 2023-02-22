@@ -11,7 +11,7 @@ from random import choice
 from playerInterface import *
 import numpy as np
 from endGame import *
-
+from openLibrary import *
 class myPlayer(PlayerInterface):
     """Monte Carlo"""
 
@@ -29,6 +29,11 @@ class myPlayer(PlayerInterface):
     def monteCarlo(self, depth):
         if self._board.is_game_over() or depth == 0:
             return endGame.isEndGameBlack(self, depth)
+
+        opening_move = openLibrary.openingMove(self, depth)
+        if opening_move is not None:
+            return opening_move
+
         moves = self._board.legal_moves()
         score = np.zeros(len(moves))
         nb_simulation = np.zeros(len(moves))

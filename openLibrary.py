@@ -7,7 +7,7 @@ from json import *
 import buildOpenLibrary as bdl
 
 
-class openLibrary(PlayerInterface):
+class openLibrary:
     
     def openingMove(self, depth):
         if depth <= self._opening_depth: 
@@ -16,5 +16,4 @@ class openLibrary(PlayerInterface):
             if move in self._data[depth - 1]:
                 opening_move = move
                 break
-        if opening_move is not None:
-            return opening_move
+        return opening_move
