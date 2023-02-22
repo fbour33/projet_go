@@ -11,6 +11,7 @@ from random import choice
 from playerInterface import *
 import numpy as np
 from endGame import *
+from openLibrary import *
 
 class myPlayer(PlayerInterface):
     """Monte Carlo"""
@@ -18,6 +19,11 @@ class myPlayer(PlayerInterface):
     def best_move(moves, score, nb_simulation):
         best_moves = []
         max = score[0] / nb_simulation[0]
+        
+        #opening_move = openLibrary.openingMove(self, depth);
+        #if opening_move is not None:
+        #    return opening_move
+        
         for i in  range(len(moves)):
             if max < score[i] / nb_simulation[i]:
                 max = score[i] / nb_simulation[i]

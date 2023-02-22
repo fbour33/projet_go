@@ -10,9 +10,16 @@ import Goban
 from random import choice
 from playerInterface import *
 from endGame import *
+from openLibrary import *
+import buildOpenLibrary as bdl
+from json import *
 
 class myPlayer(PlayerInterface):
     """minmax de profondeur x avec alpha beta"""
+    
+    with open('openLibrary.json', 'r') as file: 
+        _data = load(file)
+    _opening_depth = bdl.nb_turn
 
     def MaxValue(self, depth, alpha, beta, currentMove, color):
         if self._board.is_game_over() or depth == 0:
@@ -44,6 +51,11 @@ class myPlayer(PlayerInterface):
         alpha = -10000
         beta = 10000
         best_move = 0
+        
+        opening_move = openLibrary.openingMove(self, depth);
+        if opening_move is not None:
+            return opening_move
+        
         for move in moves:
             self._board.push(move)
             current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move, color)

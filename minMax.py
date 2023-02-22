@@ -11,6 +11,7 @@ from random import choice
 from playerInterface import *
 from endGame import *
 
+
 class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 

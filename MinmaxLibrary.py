@@ -9,8 +9,8 @@ import time
 import Goban 
 from random import choice
 from playerInterface import *
-#from json import *
-#import buildOpenLibrary as bdl
+from json import *
+import buildOpenLibrary as bdl
 from endGame import *
 
 from openLibrary import *
