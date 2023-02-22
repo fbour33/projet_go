@@ -9,11 +9,25 @@ import time
 import Goban 
 from random import choice
 from playerInterface import *
+from myPlayer import *
 from endGame import *
-from openLibrary import *
+#from openLibrary import *
 
 class myPlayer(PlayerInterface):
     """minmax de profondeur x avec alpha beta"""
+    
+    with open('openLibrary.json', 'r') as file: 
+        _data = load(file)
+    _opening_depth = bdl.nb_turn
+
+    def openingMove(self, depth):
+        if depth <= self._opening_depth: 
+            opening_move = None
+        for move in self._board.legal_moves(): 
+            if move in self._data[depth - 1]:
+                opening_move = move
+                break
+        return opening_move
     
 
 
@@ -46,9 +60,9 @@ class myPlayer(PlayerInterface):
         moves = self._board.legal_moves()
         alpha = -10000
         beta = 10000
-        best_move = 0
+        best_move = []
         
-        opening_move = openLibrary.openingMove(self, depth);
+        opening_move = self.openingMove(depth);
         if opening_move is not None:
             return opening_move
         

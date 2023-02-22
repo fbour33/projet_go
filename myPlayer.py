@@ -7,22 +7,20 @@ Right now, this class contains the copy of the randomPlayer. But you have to cha
 
 import time
 import Goban 
-from random import choice
 from playerInterface import *
 from minMax import *
-from json import *
 import buildOpenLibrary as bdl
-from openLibrary import *
+from json import *
+
 
 class myPlayer(PlayerInterface):
     """Current player"""
 
     def __init__(self):
         self._board = Goban.Board()
-        self._mycolor = None
-        self._opening_depth = bdl.nb_turn
-        with open('openLibrary.json', 'r') as file: 
-            _data = load(file)
+        self._mycolor = None 
+        
+
 
     def getPlayerName(self):
         return "BERTIN BOUR"
@@ -51,6 +49,7 @@ class myPlayer(PlayerInterface):
     def newGame(self, color):
         self._mycolor = color
         self._opponent = Goban.Board.flip(color)
+    
 
     def endGame(self, winner):
         if self._mycolor == winner:

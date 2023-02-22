@@ -1,18 +1,16 @@
 import time
 import Goban 
-from random import choice
-from playerInterface import *
+from playerInterface import * 
 from myPlayer import *
 from json import *
 import buildOpenLibrary as bdl
 
-
-class openLibrary():
+class openLibrary(PlayerInterface): 
     
     with open('openLibrary.json', 'r') as file: 
         _data = load(file)
     _opening_depth = bdl.nb_turn
-    
+        
     def openingMove(self, depth):
         if depth <= self._opening_depth: 
             opening_move = None
