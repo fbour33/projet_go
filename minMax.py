@@ -15,28 +15,28 @@ from endGame import *
 class myPlayer(PlayerInterface):
     """minmax de profondeur x"""
 
-    def MaxMin(self, depth, color): # ami
+    def MaxMin(self, depth, color, move): # ami
         if self._board.is_game_over() or depth == 0:
-            return endGame.isendGame(self, depth, color)
+            return endGame.coloredHeuristique(self, depth, move, color)
         
         moves = self._board.legal_moves()
         best = -1000
         for move in moves:
             self._board.push(move)
-            best = max(best, myPlayer.MinMax(self, depth-1, color))
+            best = max(best, myPlayer.MinMax(self, depth-1, color, move))
             self._board.pop()
         return best
 
 
-    def MinMax(self, depth, color): # adversaire
+    def MinMax(self, depth, color, move): # adversaire
         if self._board.is_game_over() or depth == 0:
-            return endGame.isendGame(self, depth, color)
+            return endGame.coloredHeuristique(self, depth, move, color)
         
         worst = 1000
         moves = self._board.legal_moves()
         for move in moves:
             self._board.push(move)
-            worst = min(worst, myPlayer.MaxMin(self, depth-1, color))
+            worst = min(worst, myPlayer.MaxMin(self, depth-1, color, move))
             self._board.pop()
         return worst
 
@@ -47,7 +47,7 @@ class myPlayer(PlayerInterface):
 
         for move in moves:
             self._board.push(move)
-            current_value = myPlayer.MaxMin(self, depth-1, color)
+            current_value = myPlayer.MaxMin(self, depth-1, color, move)
             if best < current_value: 
                 best = current_value
                 best_move = [move]

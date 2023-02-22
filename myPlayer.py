@@ -10,6 +10,9 @@ import Goban
 from random import choice
 from playerInterface import *
 from minMax import *
+from json import *
+import buildOpenLibrary as bdl
+from openLibrary import *
 
 class myPlayer(PlayerInterface):
     """Current player"""
@@ -17,6 +20,9 @@ class myPlayer(PlayerInterface):
     def __init__(self):
         self._board = Goban.Board()
         self._mycolor = None
+        self._opening_depth = bdl.nb_turn
+        with open('openLibrary.json', 'r') as file: 
+            _data = load(file)
 
     def getPlayerName(self):
         return "BERTIN BOUR"
