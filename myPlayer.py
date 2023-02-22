@@ -16,14 +16,77 @@ from json import *
 class myPlayer(PlayerInterface):
     """Current player"""
 
+    #debut du minmax
+    def MaxValue(self, depth, alpha, beta, currentMove, color):
+        if self._board.is_game_over() or depth == 0:
+            return endGame.coloredHeuristique(self, depth, currentMove, color)
+        moves = self._board.legal_moves()
+        for move in moves:
+            self._board.push(move)
+            alpha = max(alpha, myPlayer.MinValue(self, depth-1, alpha, beta, move, color))
+            self._board.pop()
+            if alpha >= beta:
+                return alpha
+        return alpha
+
+
+    def MinValue(self, depth, alpha, beta, currentMove, color):
+        if self._board.is_game_over() or depth == 0:
+            return endGame.coloredHeuristique(self, depth, currentMove, color)
+        moves = self._board.legal_moves()
+        for move in moves:
+            self._board.push(move)
+            beta = min(beta, myPlayer.MaxValue(self, depth-1, alpha, beta, move, color))
+            self._board.pop()
+            if alpha >= beta:
+                return alpha
+        return beta
+
+    def alphaBeta(self, depth, color): # ok pour le BLACK
+        moves = self._board.legal_moves()
+        alpha = -10000
+        beta = 10000
+        best_move = []
+        
+        opening_move = self.openingMove(depth);
+        if opening_move is not None:
+            return opening_move
+        
+        for move in moves:
+            self._board.push(move)
+            current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move, color)
+            self._board.pop()
+            if current_value > alpha:
+                alpha = current_value
+                best_move = [move]
+            elif alpha == current_value:
+                best_move.append(move)
+            if alpha >= beta:
+                return choice(best_move)
+        return choice(best_move)
+    #fin alphaBeta
+
     def __init__(self):
         self._board = Goban.Board()
-        self._mycolor = None 
-        
+        self._mycolor = None
 
+    # bibliothèque d'ouverture    
+    with open('openLibrary.json', 'r') as file: 
+        _data = load(file)
+    _opening_depth = bdl.nb_turn
 
+    def openingMove(self, depth):
+        if depth <= self._opening_depth: 
+            opening_move = None
+        for move in self._board.legal_moves(): 
+            if move in self._data[depth - 1]:
+                opening_move = move
+                break
+        return opening_move
+    #fin bibliothèque d'ouverture
+    
     def getPlayerName(self):
-        return "BERTIN BOUR"
+        return "Bertin Bour"
 
     def getPlayerMove(self):
         if self._board.is_game_over():
@@ -31,7 +94,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.best_move_minmax(self, 2)
+        move = myPlayer.alphaBeta(self, 3, self._mycolor)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
@@ -49,7 +112,6 @@ class myPlayer(PlayerInterface):
     def newGame(self, color):
         self._mycolor = color
         self._opponent = Goban.Board.flip(color)
-    
 
     def endGame(self, winner):
         if self._mycolor == winner:

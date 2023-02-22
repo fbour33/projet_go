@@ -12,3 +12,6 @@ Voici les principales modifications à ajouter au projet :
 
 On passe de move a flatten puis a unflatten, mais on va donner les coordonnées flatten
 Regarder ce qu'est un legal_move
+
+- ajouter dans endGame que lorsqu'il reste moins de x pions sur le terrain, 
+on fait un calcul plus global des points sur le plateau.
