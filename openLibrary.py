@@ -1,12 +1,10 @@
-import time
-import Goban 
-from playerInterface import * 
-from myPlayer import *
 from json import *
 import buildOpenLibrary as bdl
 
-class openLibrary(PlayerInterface): 
+class openLibrary(): 
     
+    def __init__(self) -> None:
+        super().__init__()
     with open('openLibrary.json', 'r') as file: 
         _data = load(file)
     _opening_depth = bdl.nb_turn

@@ -7,14 +7,25 @@ Right now, this class contains the copy of the randomPlayer. But you have to cha
 
 import time
 import Goban 
+from endGame import *
 from playerInterface import *
-from minMax import *
 import buildOpenLibrary as bdl
 from json import *
 
 
+
+
 class myPlayer(PlayerInterface):
     """Current player"""
+    
+    def __init__(self):
+        self._board = Goban.Board()
+        self._mycolor = None
+        self._indexOpeningMove = 0
+        with open('openLibrary.json', 'r') as file: 
+            self._data = load(file)
+            print(self._board.str_to_move(self._data[0][0]) in self._board.legal_moves())
+        self._opening_depth = bdl.nb_turn
 
     #debut du minmax
     def MaxValue(self, depth, alpha, beta, currentMove, color):
@@ -48,10 +59,6 @@ class myPlayer(PlayerInterface):
         beta = 10000
         best_move = []
         
-        opening_move = self.openingMove(depth)
-        if opening_move is not None:
-            return opening_move
-        
         for move in moves:
             self._board.push(move)
             current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move, color)
@@ -66,23 +73,16 @@ class myPlayer(PlayerInterface):
         return choice(best_move)
     #fin alphaBeta
 
-    def __init__(self):
-        self._board = Goban.Board()
-        self._mycolor = None
-
     # bibliothèque d'ouverture    
-    with open('openLibrary.json', 'r') as file: 
-        _data = load(file)
-    _opening_depth = bdl.nb_turn
 
     def openingMove(self, depth):
-        if depth <= self._opening_depth: 
-            opening_move = None
-        for move in self._board.legal_moves(): 
-            if move in self._data[depth - 1]:
-                opening_move = move
-                break
-        return opening_move
+        opening_move = None
+        for move in self._data[depth]: 
+            for legalMove in self._board.legal_moves():
+                if legalMove == self._board.str_to_move(move):
+                    opening_move = move
+                    break   
+        return self._board.str_to_move(opening_move)
     #fin bibliothèque d'ouverture
     
     def getPlayerName(self):
@@ -92,9 +92,15 @@ class myPlayer(PlayerInterface):
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return "PASS" 
-        #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
-        #move = choice(moves)
-        move = myPlayer.alphaBeta(self, 3, self._mycolor)
+        if self._indexOpeningMove >= self._opening_depth:
+            move = myPlayer.alphaBeta(self, 3, self._mycolor)
+        else:
+            opening_move = self.openingMove(self._indexOpeningMove)
+            self._indexOpeningMove += 1
+            if opening_move != None:
+                move = opening_move
+            else:
+                move = myPlayer.alphaBeta(self, 3, self._mycolor)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves

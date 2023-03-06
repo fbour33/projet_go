@@ -1,6 +1,6 @@
 from json import *
 
-nb_turn = 5
+nb_turn = 10
 
 def openArchives():
     with open('proGameArchives.json', 'r') as file: 
@@ -15,7 +15,10 @@ def getData(nb_turn):
     for i in range(nb_turn):
         tmp = []
         for j in range(length): 
-            tmp.append(data[j]['moves'][i])
+            if(data[j]['winner'] == 'W'):
+                tmp.append(data[j]['moves'][i+1])
+            else: 
+                tmp.append(data[j]['moves'][i])
         values.append(tmp)
     return values
 
@@ -32,7 +35,7 @@ def countMoves(array):
     return count_moves
 
 def sortMoves(countedMoves):
-    sortedMoves = sorted(countedMoves.items(), key = lambda x: x[1], reverse=True)
+    sortedMoves = sorted(countedMoves.items(), key = lambda x: x[1], reverse=False)
     return dictionaryToArray(sortedMoves, 0)
 
 def createOpenLibrary(nb_turn): 
@@ -49,5 +52,5 @@ def stockOpenLibrary(nb_turn):
     
 
 #print(createOpenLibrary(5))
-stockOpenLibrary(5)
+stockOpenLibrary(10)
 
