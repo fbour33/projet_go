@@ -52,10 +52,18 @@ class endGame:
                 return lose
             else:
                 return 0
-        # la partie n'est pas finie, on va donc calculer l'heuristique
+        #gérer le cas du PASS, des fois on passe pour rien, ça "règle" le pb ...
+        if move == "PASS":
+            nb -= 1
+        #la partie est sur le point de finir il ne reste que 10 coups ou moins
+        if self._board._nbBLACK + self._board._nbWHITE > 70:
+                scoreBlack, scoreWhite = self._board.compute_score()
+                return scoreBlack - scoreWhite
+        # la partie n'est pas du tout finie, on va donc calculer l'heuristique
         nbBlack, nbWhite = endGame.neighbors(self, move)
+        nbCaptured = self._board.diff_stones_captured() # Black - White
         if depth == 0:
-            return 5*nb + nbBlack - nbWhite
+            return 5*nb + 2*nbCaptured + nbBlack - nbWhite
         
     def coloredHeuristique(self, depth, move, color):
         if color == Goban.Board._BLACK:

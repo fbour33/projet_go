@@ -62,10 +62,6 @@ class myPlayer(PlayerInterface):
         beta = 10000
         best_move = []
         
-        opening_move = self.openingMove(depth);
-        if opening_move is not None:
-            return opening_move
-        
         for move in moves:
             self._board.push(move)
             current_value = myPlayer.MinValue(self, depth-1, alpha, beta, move, color)
