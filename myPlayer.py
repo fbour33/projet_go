@@ -26,6 +26,7 @@ class myPlayer(PlayerInterface):
             self._data = load(file)
             print(self._board.str_to_move(self._data[0][0]) in self._board.legal_moves())
         self._opening_depth = bdl.nb_turn
+        self._opponent_move = 'A1'
 
     #debut du minmax
     def MaxValue(self, depth, alpha, beta, currentMove, color):
@@ -111,6 +112,7 @@ class myPlayer(PlayerInterface):
         return Goban.Board.flat_to_name(move) 
 
     def playOpponentMove(self, move):
+        self._opponent_move = move
         print("Opponent played ", move) # New here
         # the board needs an internal represetation to push the move.  Not a string
         self._board.push(Goban.Board.name_to_flat(move)) 

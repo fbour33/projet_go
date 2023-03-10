@@ -78,6 +78,7 @@ class myPlayer(PlayerInterface):
     def __init__(self):
         self._board = Goban.Board()
         self._mycolor = None
+        self._opponent_move = 'A1'
 
     def getPlayerName(self):
         return "Alexandre alphaBeta 2"
@@ -88,7 +89,7 @@ class myPlayer(PlayerInterface):
             return "PASS" 
         #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
         #move = choice(moves)
-        move = myPlayer.alphaBeta(self, 2, self._mycolor)
+        move = myPlayer.alphaBeta(self, 3, self._mycolor)
         self._board.push(move)
 
         # New here: allows to consider internal representations of moves
