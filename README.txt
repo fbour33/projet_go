@@ -40,22 +40,14 @@ de la couleur du joueur qui fait appel à cette fonction.
 buildOpenLibraby.py
 ---------------
 
-Pour créer la bibliothèque d'ouverture, nous avons utilisé le fichier proGameArchives.json contenant un ensemble
-de parties jouées par des pros. 
+Pour créer la bibliothèque d'ouverture, nous avons utilisé le fichier proGameArchives.json contenant 
+un ensemble de parties jouées par des pros. 
 Dans le fichier buildOpenLibraby.py, on réccupère la totalité des coups joués par le gagnant de la 
-partie. Ensuite, on 
-
-Pour créer la bibliothèque d'ouverture, nous avons utilisé le fichier proGameArchives.json contenant un ensemble
-de parties jouées par des pros. 
-Dans le fichier buildOpenLibraby.py, on réccupère la totalité des coups joués par le gagnant de la 
-partie. Ensuite, on 
-
-Pour créer la bibliothèque d'ouverture, nous avons utilisé le fichier proGameArchives.json contenant un ensemble
-de parties jouées par des pros. 
-Dans le fichier buildOpenLibraby.py, on réccupère la totalité des coups joués par le gagnant de la 
-partie. Ensuite, on 
-
-
+partie. Ensuite on transforme le dictionnaire en un tableau de tuples afin de pouvoir compté le nombre 
+de fois où apparait chaque coups joué dans l'ensemble des parties. Il reste ensuite à trier les 
+coups dans l'ordre décroissant pour réccupérer les 10 premiers coups les plus joués en début de partie. 
+A la fin on crée un openLibrary.json afin de pouvoir utilisé notre bibliothèque d'ouverture dans 
+nos heuristiques.
 
 minmax.py
 ---------
