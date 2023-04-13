@@ -36,3 +36,20 @@ de la couleur du joueur qui fait appel à cette fonction.
 buildLibraby.py
 ---------------
 
+
+
+minmax.py
+---------
+
+Ce fichier contient un minmax classique avec la même heuristique que myPlayer.py mais sans la 
+bibliothèque d'ouverture. Ce fichier était notre première version de player, il a eu une utilité 
+pour tester l'intérêt d'une bibliothèque d'ouverture et maintenant ne sert plus qu'à comparer les 
+capacités de notre player contre un player plus basique.
+
+monteCalro.py
+-------------
+
+Ce fichier contient une implémentation d'un Monte Carlo avec la bibliothèque d'ouverture ainsi que 
+la bonne heuristique. Nous n'avons pas choisi cette solution car après plusieurs tests contre 
+myPlayer.py, il perdait très souvant. Nous avons donc préférés rester sur un alphaBeta plutôt que 
+d'utiliser un Monte Carlo.
