@@ -53,18 +53,17 @@ class endGame:
             else:
                 return 0
 
-        #gérer le cas du PASS, des fois on passe pour rien, ça "règle" le pb ...
         if move == 'PASS':
             nb -= 10
 
         if self._opponent_move == 'PASS':
             scoreBlack, scoreWhite = self._board.compute_score()
             return 1000*(scoreBlack - scoreWhite)
-        #la partie est sur le point de finir il ne reste que 10 coups ou moins
+        #la partie est sur le point de finir il ne reste que 10 coups par joueur ou moins
         if self._board._nbBLACK + self._board._nbWHITE > 60:
             scoreBlack, scoreWhite = self._board.compute_score()
             return 5*(scoreBlack - scoreWhite)
-        # la partie n'est pas du tout finie, on va donc calculer l'heuristique
+        # la partie n'est pas du tout finie, on va donc calculer une heuristique moins couteuse
         nbBlack, nbWhite = endGame.neighbors(self, move)
         nbCaptured = self._board.diff_stones_captured() # Black - White
         if depth == 0:

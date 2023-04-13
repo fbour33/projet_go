@@ -28,7 +28,7 @@ class myPlayer(PlayerInterface):
         self._opening_depth = bdl.nb_turn
         self._opponent_move = 'A1'
 
-    #debut du minmax
+    #debut du alphabeta
     def MaxValue(self, depth, alpha, beta, currentMove, color):
         if self._board.is_game_over() or depth == 0:
             return endGame.coloredHeuristique(self, depth, currentMove, color)
@@ -54,7 +54,7 @@ class myPlayer(PlayerInterface):
                 return alpha
         return beta
 
-    def alphaBeta(self, depth, color): # ok pour le BLACK
+    def alphaBeta(self, depth, color):
         moves = self._board.legal_moves()
         alpha = -10000
         beta = 10000
@@ -104,17 +104,12 @@ class myPlayer(PlayerInterface):
                 move = myPlayer.alphaBeta(self, 3, self._mycolor)
         self._board.push(move)
 
-        # New here: allows to consider internal representations of moves
         print("I am playing ", self._board.move_to_str(move))
-        #print("My current board :")
-        #self._board.prettyPrint()
-        # move is an internal representation. To communicate with the interface I need to change if to a string
         return Goban.Board.flat_to_name(move) 
 
     def playOpponentMove(self, move):
         self._opponent_move = move
-        print("Opponent played ", move) # New here
-        # the board needs an internal represetation to push the move.  Not a string
+        print("Opponent played ", move)
         self._board.push(Goban.Board.name_to_flat(move)) 
 
     def newGame(self, color):

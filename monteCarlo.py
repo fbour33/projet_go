@@ -20,10 +20,6 @@ class myPlayer(PlayerInterface):
         best_moves = []
         max = score[0] / nb_simulation[0]
         
-        #opening_move = openLibrary.openingMove(self, depth);
-        #if opening_move is not None:
-        #    return opening_move
-        
         for i in  range(len(moves)):
             if max < score[i] / nb_simulation[i]:
                 max = score[i] / nb_simulation[i]
@@ -63,21 +59,14 @@ class myPlayer(PlayerInterface):
         if self._board.is_game_over():
             print("Referee told me to play but the game is over!")
             return "PASS" 
-        #moves = self._board.legal_moves() # Dont use weak_legal_moves() here!
-        #move = choice(moves)
         move = myPlayer.monteCarlo(self, 2)
         self._board.push(move)
 
-        # New here: allows to consider internal representations of moves
         print("I am playing ", self._board.move_to_str(move))
-        #print("My current board :")
-        #self._board.prettyPrint()
-        # move is an internal representation. To communicate with the interface I need to change if to a string
         return Goban.Board.flat_to_name(move) 
 
     def playOpponentMove(self, move):
-        print("Opponent played ", move) # New here
-        # the board needs an internal represetation to push the move.  Not a string
+        print("Opponent played ", move)
         self._board.push(Goban.Board.name_to_flat(move)) 
 
     def newGame(self, color):

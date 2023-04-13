@@ -51,6 +51,5 @@ def stockOpenLibrary(nb_turn):
         dump(data, file)
     
 
-#print(createOpenLibrary(5))
 stockOpenLibrary(10)
 
