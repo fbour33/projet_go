@@ -1,6 +1,16 @@
+Membres du groupe : BERTIN Alexandre, BOUR Florian
+
+Explication de nos tests :
+--------------------------
+
+Nous n'avons pas de fichier de tests unitaires. Nos tests étaient premièrement des confrontations 
+contre un joueur qui joue aléatoirement. Par la suite, nous avons conservé différentes 
+versions de notre joueur pour avoir de meilleures adversaires que le joueur random. Enfin, nos tests 
+finaux ont été de se faire affronter notre IA et celles de camarades pour comprendre quels étaient 
+nos failles.
+
 Explication de chaque fichier : 
 -------------------------------
-
 
 myPlayer.py
 -----------
